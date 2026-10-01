@@ -2,6 +2,7 @@ export const API_PREFIX = '/api'
 
 export const API_ROUTES = {
   health: '/health',
+  dashboard: '/dashboard',
   auth: {
     login: '/auth/login',
     logout: '/auth/logout',
