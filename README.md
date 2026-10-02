@@ -8,10 +8,12 @@
 
 ```
 auth/       — логін (LoginRequest, LoginResponse)
+chat/       — події WebSocket-чату підтримки (ChatMessage, ClientChatEvent, ServerChatEvent)
 common/     — спільні схеми та константи
-  api.ts      — префікс API, маршрути, назва auth-cookie
+  api.ts      — префікс API, REST-маршрути (API_ROUTES), WS-маршрути (WS_ROUTES), назва auth-cookie
   errors.ts   — формат помилки API (ApiError)
   types.ts    — Id (uuid), Timestamps (createdAt / updatedAt)
+dashboard/  — відповідь GET /api/dashboard (DashboardResponse)
 products/   — контракти для товарів
 users/      — контракти для користувачів
 index.ts    — точка входу, реекспорт усіх контрактів
@@ -39,6 +41,23 @@ import {
 const body: LoginRequest = LoginRequestSchema.parse(req.body);
 const url = `${API_PREFIX}${API_ROUTES.auth.login}`;
 ```
+
+## WebSocket-чат
+
+Шлях — `WS_ROUTES.chat` (`/ws/chat`). Він окремо від `API_ROUTES`, бо до нього не додається `API_PREFIX`. Повідомлення — JSON, дискримінований union за полем `type`.
+
+| Напрям | Схема | Події |
+| --- | --- | --- |
+| клієнт → сервер | `ClientChatEventSchema` | `{ type: 'message:send', clientId, text }` — `clientId` uuid від клієнта, `text` після `trim` 1–1000 символів |
+| сервер → клієнт | `ServerChatEventSchema` | `{ type: 'message:new', message: ChatMessage }`, `{ type: 'error', code: 'INVALID_JSON' \| 'VALIDATION_ERROR', clientId?, message }` |
+
+`ChatMessage` — `{ id, clientId?, author: 'user' | 'support', text, sentAt }`. `id` і `sentAt` задає сервер. `clientId` є лише у відповіді на повідомлення клієнта, у привітання від сервера його немає.
+
+У події `error` поле `clientId` вказує, яке повідомлення клієнта не пройшло перевірку. Воно є лише тоді, коли сервер зміг його прочитати (валідний uuid). У `INVALID_JSON` його немає ніколи.
+
+Вхідні дані перевіряються схемою (`ClientChatEventSchema.safeParse(data)`), а не типом: тип `ClientChatEvent` після компіляції зникає.
+
+Як поводиться сервер (коди закриття, привітання) — у `auto-lincoln-api-nest/README.md`.
 
 ## Додавання нового контракту
 
