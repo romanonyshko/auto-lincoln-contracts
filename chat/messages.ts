@@ -29,6 +29,7 @@ export const ServerChatEventSchema = z.discriminatedUnion('type', [
         type: z.literal('error'),
         code: z.enum(['INVALID_JSON', 'VALIDATION_ERROR']),
         message: z.string(),
+        clientId: z.uuid().optional()
     }),
 ]);
 

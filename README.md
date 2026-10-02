@@ -49,9 +49,11 @@ const url = `${API_PREFIX}${API_ROUTES.auth.login}`;
 | Напрям | Схема | Події |
 | --- | --- | --- |
 | клієнт → сервер | `ClientChatEventSchema` | `{ type: 'message:send', clientId, text }` — `clientId` uuid від клієнта, `text` після `trim` 1–1000 символів |
-| сервер → клієнт | `ServerChatEventSchema` | `{ type: 'message:new', message: ChatMessage }`, `{ type: 'error', code: 'INVALID_JSON' \| 'VALIDATION_ERROR', message }` |
+| сервер → клієнт | `ServerChatEventSchema` | `{ type: 'message:new', message: ChatMessage }`, `{ type: 'error', code: 'INVALID_JSON' \| 'VALIDATION_ERROR', clientId?, message }` |
 
 `ChatMessage` — `{ id, clientId?, author: 'user' | 'support', text, sentAt }`. `id` і `sentAt` задає сервер. `clientId` є лише у відповіді на повідомлення клієнта, у привітання від сервера його немає.
+
+У події `error` поле `clientId` вказує, яке повідомлення клієнта не пройшло перевірку. Воно є лише тоді, коли сервер зміг його прочитати (валідний uuid). У `INVALID_JSON` його немає ніколи.
 
 Вхідні дані перевіряються схемою (`ClientChatEventSchema.safeParse(data)`), а не типом: тип `ClientChatEvent` після компіляції зникає.
 
