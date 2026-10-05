@@ -11,8 +11,8 @@ export const ChatMessageSchema = z.object({
 
 export const ClientChatEventSchema = z.discriminatedUnion('type', [
     z.object({
-        type: z.literal('message:send'), clientId: z.uuid(), text: z
-            .string()
+        type: z.literal('message:send'), clientId: z.uuid(),
+        text: z.string()
             .trim()
             .min(1, { message: "Повідомлення не може бути порожнім" })
             .max(1000, { message: "Максимальна довжина — 1000 символів" }),
