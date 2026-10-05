@@ -79,6 +79,7 @@ The engines controller uses `API_ROUTES.models` (`/models`) as its prefix.
 
 | Param | Type | What it does |
 | --- | --- | --- |
+| `category` | uuid, optional | filter by category |
 | `make`, `model`, `engine` | uuid, optional | filter by id at any selection depth |
 | `search` | string, optional | `trim`; empty or whitespace-only → `undefined` (ignored) |
 | `cursor` | uuid, optional | id of the last part on the previous page |

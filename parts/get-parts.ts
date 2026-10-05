@@ -4,6 +4,7 @@ import { paginated } from "../common/pagination.js";
 import { PartSchema } from "./part.js";
 
 export const PartsQuerySchema = z.object({
+    category: IdSchema.optional(),
     make: IdSchema.optional(),
     model: IdSchema.optional(),
     engine: IdSchema.optional(),
