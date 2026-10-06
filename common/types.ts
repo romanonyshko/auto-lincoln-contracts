@@ -7,5 +7,10 @@ export const TimestampsSchema = z.object({
     updatedAt: z.iso.datetime()
 })
 
+export const IdParamsSchema = z.object({
+    id: IdSchema
+})
+
 export type Id = z.infer<typeof IdSchema>;
 export type Timestamps = z.infer<typeof TimestampsSchema>;
+export type IdParams = z.infer<typeof IdParamsSchema>

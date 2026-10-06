@@ -8,6 +8,12 @@ export const API_ROUTES = {
     me: '/auth/me',
   },
   dashboard: '/dashboard',
+  categories: '/categories',
+  carmakers: '/carmakers',
+  carmakerModels: (id: string) => `/carmakers/${id}/models`,
+  models: '/models',
+  modelEngines: (id: string) => `/models/${id}/engines`,
+  parts: '/parts',
 } as const
 
 export const WS_ROUTES = {
