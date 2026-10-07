@@ -10,9 +10,9 @@ export const API_ROUTES = {
   dashboard: '/dashboard',
   categories: '/categories',
   carmakers: '/carmakers',
-  carmakerModels: (id: string) => `/carmakers/${id}/models`,
+  carmakerModels: (id: string | undefined) => `/carmakers/${id}/models`,
   models: '/models',
-  modelEngines: (id: string) => `/models/${id}/engines`,
+  modelEngines: (id: string | undefined) => `/models/${id}/engines`,
   parts: '/parts',
 } as const
 
