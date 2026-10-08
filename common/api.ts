@@ -6,6 +6,7 @@ export const API_ROUTES = {
     login: '/auth/login',
     logout: '/auth/logout',
     me: '/auth/me',
+    wsTicket: '/auth/ws-ticket',
   },
   dashboard: '/dashboard',
   categories: '/categories',
@@ -21,4 +22,7 @@ export const WS_ROUTES = {
 } as const
 
 export const AUTH_COOKIE_NAME = 'al_session'
+
+/** Query param that carries the one-time chat ticket on the WebSocket URL. */
+export const WS_TICKET_PARAM = 'ticket'
 
